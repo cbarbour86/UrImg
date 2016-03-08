@@ -13,6 +13,21 @@ Router.route('/contact', function() {
     this.layout('layout');
 });
 
+Router.route('/MyImgs', function() {
+    this.render('MyImages');
+    this.layout('layout');
+});
+
+Router.route('/Random', function() {
+    this.render('Random');
+    this.layout('layout');
+});
+
+Router.route('/Newest', function() {
+    this.render('Newest');
+    this.layout('layout');
+});
+
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
