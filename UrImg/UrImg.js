@@ -24,23 +24,11 @@ if (Meteor.isClient) {
     }
   });
   
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
-
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
   Accounts.ui.config({
     //options are listed in book p. 135
     //USERNAME_AND_EMAIL, USERNAME_AND_OPTIONAL_EMAIL
     //USERNAME_ONLY, EMAIL_ONLY
-    passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
+    passweordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
   });
   
 }
