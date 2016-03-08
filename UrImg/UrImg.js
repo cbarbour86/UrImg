@@ -5,13 +5,13 @@ Router.route('/', function(){
 
 if (Meteor.isClient) {
   // counter starts at 0
-  //Session.setDefault('counter', 0);
+  Session.setDefault('counter', 0);
 
-  Accounts.ui.config({
-    //options are listed in book p. 135
-    //USERNAME_AND_EMAIL, USERNAME_AND_OPTIONAL_EMAIL
-    //USERNAME_ONLY, EMAIL_ONLY
-    passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
+  
+  Template.navitems.helpers({
+    currentuser: function(){
+      return Meteor.user();
+    }
   });
   
   Template.hello.helpers({
@@ -26,6 +26,13 @@ if (Meteor.isClient) {
       Session.set('counter', Session.get('counter') + 1);
     }
   });
+  Accounts.ui.config({
+    //options are listed in book p. 135
+    //USERNAME_AND_EMAIL, USERNAME_AND_OPTIONAL_EMAIL
+    //USERNAME_ONLY, EMAIL_ONLY
+    passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
+  });
+  
 }
 
 if (Meteor.isServer) {

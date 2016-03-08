@@ -1,5 +1,13 @@
 <template name="layout">
  <body>
+    <header>
+      {{> navbar}}
+    </header>
+    {{> yield}}
+  </body>
+</template>
+
+<template name="navbar">
   <div class="navbar navbar-default" role="navigation">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="#">UriMg</a>
@@ -11,13 +19,22 @@
         </button>
 	</div>
 	<div class="navbar-collapse collapse">
+        {{> navitems}}
 		<ul class="nav navbar-nav navbar-right">
 			{{> loginButtons}} <!-- here -->
 		</ul>
 	</div>
   </div>
-    {{> yield}}
-  </body>
+</template>
+
+<template name="navitems">
+  {{ #if currentuser }}
+    <ul class="nav navbar-nav navbar-left">
+      <li><a href="/MyImgs">My Imgs</a></li>
+      <li><a href="/Random">Random Imgs</a></li>
+      <li><a href="/Newest">Newest Imgs</a></li>            
+    </ul>        
+  {{/if}}
 </template>
 
 <template name="hello">
