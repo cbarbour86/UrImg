@@ -36,8 +36,18 @@ if (Meteor.isClient) {
   Template.navitems.helpers({
     currentuser: function(){
       return Meteor.user();
+    },
+    
+    currRoute: function(){
+      return Router.current().route.path();
+    },
+    
+    myroute: function(){
+      return Router.current().route.path().toString() === "/MyImgs";
     }
+    
   });
+  
   
   Accounts.ui.config({
     //options are listed in book p. 135
