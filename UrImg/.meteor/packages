@@ -25,3 +25,4 @@ iron:router
 cfs:standard-packages
 cfs:filesystem
 raix:ui-dropped-event
+cfs:graphicsmagick

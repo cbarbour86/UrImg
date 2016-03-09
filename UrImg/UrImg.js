@@ -1,6 +1,17 @@
 Images = new FS.Collection("images", {
-  stores: [new FS.Store.FileSystem("images", {path: "~/uploads"})]
+  stores: [new FS.Store.FileSystem("thumbs", { transformWrite: createThumb, path: "~/thumbs"}),
+           new FS.Store.FileSystem("images", {path: "~/uploads"})],
+  filter: {
+    allow: {
+      contentTypes: ['image/*'] //allow only images in this FS.Collection
+    }
+  }
 });
+
+var createThumb = function(fileObj, readStream, writeStream) {
+  // Transform the image into a 10x10px thumbnail
+  gm(readStream, fileObj.name()).resize('10', '10').stream().pipe(writeStream);
+};
 
 Router.route('/', function(){
     this.render('hello');
@@ -52,7 +63,11 @@ if (Meteor.isClient) {
     
   });
   
-  
+  Template.myImages.helpers({
+    images: function () {
+      return Images.find(); // Where Images is an FS.Collection instance
+    }
+  });
   
   Template.hello.events({
     'dropped #dropzone': function(event, temp){
@@ -70,7 +85,7 @@ if (Meteor.isClient) {
     //options are listed in book p. 135
     //USERNAME_AND_EMAIL, USERNAME_AND_OPTIONAL_EMAIL
     //USERNAME_ONLY, EMAIL_ONLY
-    passweordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
+    passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
   });
   
 }
@@ -79,8 +94,16 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
     Images.allow({
-        'insert': function () {
-          // add custom authentication code here
+        insert: function () {
+          return true;
+        },
+        update: function () {
+          return true;
+        },
+        remove: function () {
+          return true;
+        },
+        download: function () {
           return true;
         }
       });

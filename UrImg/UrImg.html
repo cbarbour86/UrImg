@@ -10,7 +10,7 @@
 <template name="navbar">
   <div class="navbar navbar-default" role="navigation">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="/Upload">UriMg</a>
+		<a class="navbar-brand" href="/">UriMg</a>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -55,4 +55,14 @@
   <ul>
    <li> Email: UrImgSupport@gmail.com</li>
   </ul>
+</template>
+
+<template name="myImages">
+  <div class="imageView">
+    {{#each images}}
+      <div>
+        <a href="{{this.url}}" target="_blank"><img src="{{this.url store='thumbs'}}" alt="" class="thumbnail" /></a>
+      </div>
+    {{/each}}
+  </div>
 </template>
