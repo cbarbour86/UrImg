@@ -1,3 +1,7 @@
+Images = new FS.Collection("images", {
+  stores: [new FS.Store.FileSystem("images", {path: "~/uploads"})]
+});
+
 Router.route('/', function(){
     this.render('hello');
     this.layout('layout');  
@@ -49,6 +53,19 @@ if (Meteor.isClient) {
   });
   
   
+  
+  Template.hello.events({
+    'dropped #dropzone': function(event, temp){
+        console.log('files dropped');
+        FS.Utility.eachFile(event, function(file){
+            Images.insert(file, function(err, fileObj){
+                
+            });
+        });
+    }
+  });
+  
+  
   Accounts.ui.config({
     //options are listed in book p. 135
     //USERNAME_AND_EMAIL, USERNAME_AND_OPTIONAL_EMAIL
@@ -61,5 +78,11 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    Images.allow({
+        'insert': function () {
+          // add custom authentication code here
+          return true;
+        }
+      });
   });
 }
