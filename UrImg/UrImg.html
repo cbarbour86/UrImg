@@ -1,5 +1,5 @@
 <template name="layout">
- <body id="dropzone" class="dropzone">
+ <body>
     <header>
       {{> navbar}}
     </header>
@@ -37,9 +37,10 @@
   {{/if}}
 </template>
 <template name="hello">
+ <div id="dropzone" class="dropzone">
   {{> about}}
   {{> contact}}
-
+ </div>
 </template>
 
 <template name="about">

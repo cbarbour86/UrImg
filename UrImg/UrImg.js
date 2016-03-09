@@ -1,3 +1,9 @@
+var createThumb = function(fileObj, readStream, writeStream) {
+  // Transform the image into a 10x10px thumbnail
+  gm(readStream, fileObj.name()).resize('100', '100').stream().pipe(writeStream);
+};
+
+
 Images = new FS.Collection("images", {
   stores: [new FS.Store.FileSystem("thumbs", { transformWrite: createThumb, path: "~/thumbs"}),
            new FS.Store.FileSystem("images", {path: "~/uploads"})],
@@ -8,10 +14,7 @@ Images = new FS.Collection("images", {
   }
 });
 
-var createThumb = function(fileObj, readStream, writeStream) {
-  // Transform the image into a 10x10px thumbnail
-  gm(readStream, fileObj.name()).resize('10', '10').stream().pipe(writeStream);
-};
+
 
 Router.route('/', function(){
     this.render('hello');
@@ -69,7 +72,7 @@ if (Meteor.isClient) {
     }
   });
   
-  Template.layout.events({
+  Template.hello.events({
     'dropped #dropzone': function(event, temp){
         console.log('files dropped');
         FS.Utility.eachFile(event, function(file){
