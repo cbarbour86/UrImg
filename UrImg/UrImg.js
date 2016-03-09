@@ -69,7 +69,7 @@ if (Meteor.isClient) {
     }
   });
   
-  Template.hello.events({
+  Template.layout.events({
     'dropped #dropzone': function(event, temp){
         console.log('files dropped');
         FS.Utility.eachFile(event, function(file){
