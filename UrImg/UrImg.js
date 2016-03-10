@@ -89,6 +89,12 @@ if (Meteor.isClient) {
                 
             });
         });
+    },
+    'click #uploadImg': function(event, temp){
+      event.preventDefault();
+      var file = $('#file').get(0).files[0];
+      var fileObj = Images.insert(file);
+      console.log('Upload result: ', fileObj);
     }
   });
   
