@@ -67,6 +67,17 @@
     {{/each}}
   </div>
   <!--<button id="delete" value="delete">Delete Images</button>-->
+</template>
+
+<template name="homepage">
+  <div class="imageView">
+    {{#each images}}
+      <div id="images" class="text-center">
+        <a href="{{this.url store='images'}}" id="{{this.url store='images'}}"><img src="{{this.url store='thumbs'}}" alt="" class="img-responsive img-thumbnail" /></a>
+      </div>
+    {{/each}}
+  </div>
+  <!--<button id="delete" value="delete">Delete Images</button>-->
   {{> about}}
 </template>
 

@@ -18,7 +18,7 @@ Images = new FS.Collection("images", {
 
 
 Router.route('/', function(){
-    this.render('myImages');
+    this.render('homepage');
     this.layout('layout');  
   });
 
@@ -69,36 +69,10 @@ if (Meteor.isClient) {
   
   Template.myImages.helpers({
     images: function () {
-      return Images.find(); // Where Images is an FS.Collection instance
+      return Images.find({"owner": Meteor.user()}); // Where Images is an FS.Collection instance
     },
     img: function(){
       return this;
-    }
-  });
-  
-   
-  Template.navitems.events({
-    'click #upload': function(event){
-      event.preventDefault();
-      Modal.show('uploadModal');
-    }
-  });
-  
-  Template.uploadModal.events({
-    'dropped #dropzone': function(event, temp){
-        console.log('files dropped');
-        FS.Utility.eachFile(event, function(file){
-            Images.insert(file, function(err, fileObj){
-                
-            });
-        });
-    },
-    'click #uploadImg': function(event, temp){
-      event.preventDefault();
-      var file = $('#file').get(0).files[0];
-      var fileObj = Images.insert(file);
-      console.log('Upload result: ', fileObj);
-      Modal.hide('uploadModal');
     }
   });
   
@@ -115,6 +89,60 @@ if (Meteor.isClient) {
       //alert(img);
       Session.set('imageUrl', img);
       Modal.show('imageModal');
+    }
+  });
+  
+  Template.homepage.helpers({
+    images: function () {
+      return Images.find(); // Where Images is an FS.Collection instance
+    },
+    img: function(){
+      return this;
+    }
+  });
+  
+  Template.homepage.events({
+    'click button': function(event){
+      event.preventDefault();
+      Meteor.call('removeAllImages');
+    },
+    'click img': function(event){
+      event.preventDefault();
+      console.log(this, arguments);
+      var img = this.url('images');
+      //var test = Images.find(img);
+      //alert(img);
+      Session.set('imageUrl', img);
+      Modal.show('imageModal');
+    }
+  });
+   
+  Template.navitems.events({
+    'click #upload': function(event){
+      event.preventDefault();
+      Modal.show('uploadModal');
+    }
+  });
+  
+  Template.uploadModal.events({
+    'dropped #dropzone': function(event, temp){
+        console.log('files dropped');
+        FS.Utility.eachFile(event, function(file){
+          fsFile = new FS.File(file);
+          fsFile.owner = Meteor.user();
+            Images.insert(fsFile, function(err, fileObj){
+                
+            });
+        });
+    },
+    'click #uploadImg': function(event, temp){
+      event.preventDefault();
+      var file = $('#file').get(0).files[0];
+      fsFile = new FS.File(file);
+      fsFile.owner = Meteor.user();
+      var fileObj = Images.insert(fsFile);
+      console.log('Upload result: ', fileObj);
+      Modal.hide('uploadModal');
     }
   });
  
