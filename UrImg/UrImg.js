@@ -95,6 +95,7 @@ if (Meteor.isClient) {
       var file = $('#file').get(0).files[0];
       var fileObj = Images.insert(file);
       console.log('Upload result: ', fileObj);
+      Modal.hide('uploadModal');
     }
   });
   
