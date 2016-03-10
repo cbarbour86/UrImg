@@ -6,8 +6,8 @@ var createThumb = function(fileObj, readStream, writeStream) {
 //db.Images.drop();
 
 Images = new FS.Collection("images", {
-  stores: [new FS.Store.FileSystem("thumbs", { transformWrite: createThumb, path: "~/thumbs"}),
-           new FS.Store.FileSystem("images", {path: "~/uploads"})],
+  stores: [new FS.Store.FileSystem("images", {path: "~/uploads"}),
+           new FS.Store.FileSystem("thumbs", { transformWrite: createThumb, path: "~/thumbs"})],
   filter: {
     allow: {
       contentTypes: ['image/*'] //allow only images in this FS.Collection
@@ -18,7 +18,7 @@ Images = new FS.Collection("images", {
 
 
 Router.route('/', function(){
-    this.render('hello');
+    this.render('myImages');
     this.layout('layout');  
   });
 
@@ -70,6 +70,9 @@ if (Meteor.isClient) {
   Template.myImages.helpers({
     images: function () {
       return Images.find(); // Where Images is an FS.Collection instance
+    },
+    img: function(){
+      return this;
     }
   });
   
@@ -103,9 +106,23 @@ if (Meteor.isClient) {
     'click button': function(event){
       event.preventDefault();
       Meteor.call('removeAllImages');
+    },
+    'click img': function(event){
+      event.preventDefault();
+      console.log(this, arguments);
+      var img = this.url('images');
+      //var test = Images.find(img);
+      //alert(img);
+      Session.set('imageUrl', img);
+      Modal.show('imageModal');
     }
   });
  
+ Template.imageModal.helpers({
+  img: function(){
+    return Session.get('imageUrl');
+  }
+ });
   
   Accounts.ui.config({
     //options are listed in book p. 135

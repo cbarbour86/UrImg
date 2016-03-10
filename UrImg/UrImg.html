@@ -61,12 +61,13 @@
 <template name="myImages">
   <div class="imageView">
     {{#each images}}
-      <div>
-        <a href="{{this.url store='images'}}" target="_blank"><img src="{{this.url store='thumbs'}}" alt="" class="img-responsive img-thumbnail" /></a>
+      <div id="images" class="text-center">
+        <a href="{{this.url store='images'}}" id="{{this.url store='images'}}"><img src="{{this.url store='thumbs'}}" alt="" class="img-responsive img-thumbnail" /></a>
       </div>
     {{/each}}
   </div>
   <!--<button id="delete" value="delete">Delete Images</button>-->
+  {{> about}}
 </template>
 
 <template name="uploadModal">
@@ -88,6 +89,24 @@
 					<input type="submit" id="uploadImg" value="Upload" class="btn btn-default pull-left">
 					
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="imageModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content text-center">
+
+                <div class="modal-body pagination-centered">
+                    <img src="{{img}}" alt="" class="img-responsive text-center" id="singleImage" />
+                </div>
+
+                <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
