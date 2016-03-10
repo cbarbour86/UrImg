@@ -1,8 +1,9 @@
 var createThumb = function(fileObj, readStream, writeStream) {
-  // Transform the image into a 10x10px thumbnail
-  gm(readStream, fileObj.name()).resize('100', '100').stream().pipe(writeStream);
+  // Transform the image into a 200x200px thumbnail
+  gm(readStream, fileObj.name()).resize('200', '200').stream().pipe(writeStream);
 };
 
+//db.Images.drop();
 
 Images = new FS.Collection("images", {
   stores: [new FS.Store.FileSystem("thumbs", { transformWrite: createThumb, path: "~/thumbs"}),
@@ -72,7 +73,15 @@ if (Meteor.isClient) {
     }
   });
   
-  Template.hello.events({
+   
+  Template.navitems.events({
+    'click #upload': function(event){
+      event.preventDefault();
+      Modal.show('uploadModal');
+    }
+  });
+  
+  Template.uploadModal.events({
     'dropped #dropzone': function(event, temp){
         console.log('files dropped');
         FS.Utility.eachFile(event, function(file){
@@ -83,6 +92,13 @@ if (Meteor.isClient) {
     }
   });
   
+  Template.myImages.events({
+    'click button': function(event){
+      event.preventDefault();
+      Meteor.call('removeAllImages');
+    }
+  });
+ 
   
   Accounts.ui.config({
     //options are listed in book p. 135
@@ -110,5 +126,14 @@ if (Meteor.isServer) {
           return true;
         }
       });
+    return Meteor.methods({
+
+      removeAllImages: function() {
+
+        return Images.remove({});
+
+      }
+
+    });
   });
 }

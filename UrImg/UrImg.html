@@ -32,7 +32,8 @@
     <ul class="nav navbar-nav navbar-left">
       <li><a href="/MyImgs">My Imgs</a></li>
       <li><a href="/Random">Random Imgs</a></li>
-      <li><a href="/Newest">Newest Imgs</a></li>            
+      <li><a href="/Newest">Newest Imgs</a></li>
+	  <li><a href="#" id="upload">Upload</a></li>
     </ul>        
   {{/if}}
 </template>
@@ -61,8 +62,32 @@
   <div class="imageView">
     {{#each images}}
       <div>
-        <a href="{{this.url}}" target="_blank"><img src="{{this.url store='thumbs'}}" alt="" class="thumbnail" /></a>
+        <a href="{{this.url store='images'}}" target="_blank"><img src="{{this.url store='thumbs'}}" alt="" class="img-responsive img-thumbnail" /></a>
       </div>
     {{/each}}
   </div>
+  <!--<button id="delete" value="delete">Delete Images</button>-->
+</template>
+
+<template name="uploadModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Upload Images</h4>
+                </div>
+
+                <div id="dropzone" class="modal-body text-center">
+                    <p>Drag images here to upload.</p>
+                </div>
+
+                <div class="modal-footer">
+					<input type="file" class="btn btn-default pull-left">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </template>

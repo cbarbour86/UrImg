@@ -26,3 +26,4 @@ cfs:standard-packages
 cfs:filesystem
 raix:ui-dropped-event
 cfs:graphicsmagick
+peppelg:bootstrap-3-modal
