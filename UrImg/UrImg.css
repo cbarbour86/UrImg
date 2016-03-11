@@ -14,3 +14,20 @@
 #singleImage {
     margin: auto;
 }
+
+body {
+    background-color: #000000;
+    color: blue;
+}
+
+.navbar {
+    background-color: #565656;
+    
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a {
+    color: white;
+}
+.nav {
+    color: #000000;
+}
