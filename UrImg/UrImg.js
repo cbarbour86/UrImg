@@ -69,7 +69,7 @@ if (Meteor.isClient) {
   
   Template.myImages.helpers({
     images: function () {
-      return Images.find({"owner": Meteor.user()}); // Where Images is an FS.Collection instance
+      return Images.find({"owner": Meteor.user()}, {sort: {uploadedAt: -1}}); // Where Images is an FS.Collection instance
     },
     img: function(){
       return this;
@@ -94,7 +94,7 @@ if (Meteor.isClient) {
   
   Template.homepage.helpers({
     images: function () {
-      return Images.find(); // Where Images is an FS.Collection instance
+      return Images.find({}, {sort: {uploadedAt: -1}}); // Where Images is an FS.Collection instance
     },
     img: function(){
       return this;
@@ -151,6 +151,15 @@ if (Meteor.isClient) {
     return Session.get('imageUrl');
   }
  });
+ 
+ Template.Random.helpers({
+    image: function () {
+      return Images.findOne(); // Where Images is an FS.Collection instance
+    },
+    img: function(){
+      return this;
+    }
+  });
   
   Accounts.ui.config({
     //options are listed in book p. 135
