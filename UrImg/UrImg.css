@@ -31,3 +31,16 @@ body {
 .nav {
     color: #000000;
 }
+
+#submitComment {
+    margin-top: 5px;
+}
+
+textarea {
+    resize: none;
+}
+
+.comment {
+    display: inline;
+    clear: both;
+}

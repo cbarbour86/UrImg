@@ -30,6 +30,7 @@ Images = new FS.Collection("images", {
   }
 });
 
+Comments = new Mongo.Collection("comments");
 /**
  *Sets the homepage to route to render
  *the homepage template.
@@ -81,6 +82,7 @@ Router.route('/Newest', function() {
 if (Meteor.isClient) {
   
   Meteor.subscribe("images");
+  Meteor.subscribe("comments");
   
   /**
    *Returns the currently logged in
@@ -251,6 +253,27 @@ if (Meteor.isClient) {
  Template.imageModal.helpers({
   img: function(){
     return Session.get('imageUrl');
+  },
+  comment: function(){
+    return Comments.find({'url': Session.get('imageUrl')});
+  }
+ });
+ 
+ Template.imageModal.events({
+  'submit form': function(event){
+    event.preventDefault();
+    var commentText = $(event.target).find('input[name=comment]');
+    var cmntText = commentText.val();
+    var imgUrl = Session.get('imageUrl');
+    var usr = Meteor.user();
+    var currentUser = usr.username;
+    //console.log(currentUser);
+    
+    Comments.insert({
+      comment: cmntText,
+      url: imgUrl,
+      user: currentUser     
+    });
   }
  });
  /*
@@ -283,6 +306,10 @@ if (Meteor.isServer) {
     Meteor.publish("images", function() {
       return Images.find();
     });
+    
+    Meteor.publish('comments', function() {
+      return Comments.find();
+    });
     // code to run on server at startup
     /**
      *Sets all the flags for images that
@@ -303,6 +330,11 @@ if (Meteor.isServer) {
           return true;
         }
       });
+    Comments.allow({
+      insert: function(){
+        return true;
+      }
+    });
     /**
      *This adds a remove images command
      *that has to be on the server side

@@ -112,8 +112,20 @@
                 </div>
 
                 <div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+				  <form>
+				   <input type="text" rows="4" class="form-control" name="comment" id="comment">
+				   <input id="submitComment" type="submit" class="btn btn-success pull-right">
+				  </form>
+				</div>
+				  <div class="comment">
+				   {{#each comment}}
+					<hr>
+					<h4><p class="usrComment">{{this.comment}}</p></h4>
+					<h6><p class="commentOwner">By - {{this.user}}</p></h6>
+					<hr>
+				   {{/each}}
+				  </div>
+                
 
             </div>
         </div>
