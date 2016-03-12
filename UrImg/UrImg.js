@@ -79,9 +79,8 @@ Router.route('/Newest', function() {
 });*/
 
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
-
+  
+  Meteor.subscribe("images");
   
   /**
    *Returns the currently logged in
@@ -134,10 +133,27 @@ if (Meteor.isClient) {
       event.preventDefault();
       console.log(this, arguments);
       var img = this.url('images');
+      var id = this._id;
       Session.set('imageUrl', img);
-      Modal.show('imageModal');
+      Session.set('imageId', id);
+      Modal.show('personalImageModal');
     }
   });
+  
+  Template.personalImageModal.helpers({
+    img: function(){
+      return Session.get('imageUrl');
+    }
+   });
+  
+  Template.personalImageModal.events({
+      'click #delete': function(event){
+        event.preventDefault();
+        var currId = Session.get('imageId');
+        Meteor.call('removeImage', currId);
+        Modal.hide('personalImageModal');
+      }
+    });
   
   /**
    *Returns all images in the collecton
@@ -168,10 +184,18 @@ if (Meteor.isClient) {
     },
     'click img': function(event){
       event.preventDefault();
+      console.log(Meteor.user());
       console.log(this, arguments);
       var img = this.url('images');
+      var id = this._id;
       Session.set('imageUrl', img);
-      Modal.show('imageModal');
+      Session.set('imageId', id);
+      if (this.owner.username === Meteor.user().username){
+        Modal.show('personalImageModal');
+      } else {
+        Modal.show('imageModal');
+      }
+      
     }
   });
   
@@ -255,6 +279,10 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+    
+    Meteor.publish("images", function() {
+      return Images.find();
+    });
     // code to run on server at startup
     /**
      *Sets all the flags for images that
@@ -286,8 +314,14 @@ if (Meteor.isServer) {
 
         return Images.remove({});
 
+      },
+      
+      removeImage: function(id){
+        
+        return Images.remove(id);
       }
 
     });
+  
   });
 }

@@ -120,6 +120,25 @@
     </div>
 </template>
 
+<template name="personalImageModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content text-center">
+
+                <div class="modal-body pagination-centered">
+                    <img src="{{img}}" alt="" class="img-responsive text-center" id="singleImage" />
+                </div>
+
+                <div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" id="delete" class="btn btn-danger pull-left">Delete Image</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="Random">
   <div class="imageView">
       <div id="image" class="text-center">
