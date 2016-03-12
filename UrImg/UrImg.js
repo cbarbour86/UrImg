@@ -184,16 +184,16 @@ if (Meteor.isClient) {
     },
     'click img': function(event){
       event.preventDefault();
-      console.log(Meteor.user());
-      console.log(this, arguments);
+      //console.log(Meteor.user());
+      //console.log(this, arguments);
       var img = this.url('images');
       var id = this._id;
       Session.set('imageUrl', img);
       Session.set('imageId', id);
-      if (this.owner.username === Meteor.user().username){
-        Modal.show('personalImageModal');
-      } else {
+      if (!Meteor.user() || this.owner.username != Meteor.user().username){
         Modal.show('imageModal');
+      } else if (this.owner.username === Meteor.user().username) {
+        Modal.show('personalImageModal');
       }
       
     }
