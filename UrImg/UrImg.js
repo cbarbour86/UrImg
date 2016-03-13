@@ -163,7 +163,7 @@ if (Meteor.isClient) {
     "comment": function(){
     var thisUrl = Session.get('imageId');
     //console.log(thisUrl);
-    var comments = Comments.find({'url': thisUrl});
+    var comments = Comments.find({'url': thisUrl}, {sort: {createdOn: -1}});
     console.log(comments);
     return comments;
     },
@@ -284,7 +284,7 @@ if (Meteor.isClient) {
   "comment": function(){
     var thisUrl = Session.get('imageId');
     //console.log(thisUrl);
-    var comments = Comments.find({'url': thisUrl});
+    var comments = Comments.find({'url': thisUrl}, {sort: {createdOn: -1}});
     console.log(comments);
     return comments;
   },

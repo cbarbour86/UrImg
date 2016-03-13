@@ -17,7 +17,7 @@
 
 body {
     background-color: #000000;
-    color: blue;
+    color: white;
 }
 
 .navbar {
@@ -43,4 +43,8 @@ textarea {
 .comment {
     display: inline;
     clear: both;
+}
+
+.modal-content {
+    background-color: #565656;
 }
