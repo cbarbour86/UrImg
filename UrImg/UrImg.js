@@ -159,6 +159,16 @@ if (Meteor.isClient) {
   Template.personalImageModal.helpers({
     img: function(){
       return Session.get('imageUrl');
+    },
+    "comment": function(){
+    var thisUrl = Session.get('imageId');
+    //console.log(thisUrl);
+    var comments = Comments.find({'url': thisUrl});
+    console.log(comments);
+    return comments;
+    },
+    currentuser: function(){
+      return Meteor.user();
     }
    });
   
@@ -168,6 +178,23 @@ if (Meteor.isClient) {
         var currId = Session.get('imageId');
         Meteor.call('removeImage', currId);
         Modal.hide('personalImageModal');
+      },
+      'submit form': function(event){
+        event.preventDefault();
+        var commentText = $(event.target).find('input[name=comment]');
+        var cmntText = commentText.val();
+        var imgUrl = Session.get('imageId');
+        var usr = Meteor.user();
+        var currUser = usr.username;
+        //console.log(currentUser);
+        
+        Comments.insert({
+          comment: cmntText,
+          url: imgUrl,
+          user: currUser,
+          createdOn: Date.now()
+        });
+        commentText.val("");
       }
     });
   

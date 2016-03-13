@@ -84,7 +84,9 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-			 
+			  <div class="modal-header">
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+			  </div>
                 <div id="dropzone" class="modal-body text-center">
                     <h1><p>Drag images here to upload.</p></h1>
                 </div>
@@ -94,7 +96,6 @@
 					<input type="file" id="file" class="btn btn-primary filestyle pull-left">
 					<input type="submit" id="uploadImg" value="Upload" class="btn btn-success pull-left">
 					
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
@@ -106,7 +107,9 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content text-center">
-
+			 <div class="modal-header">
+              <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+			 </div>
                 <div class="modal-body pagination-centered">
                     <img src="{{img}}" alt="" class="img-responsive text-center" id="singleImage" />
                 </div>
@@ -137,15 +140,31 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content text-center">
+			 <div class="modal-header">
+			  <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+			  <button type="button" id="delete" class="btn btn-danger pull-left">Delete Image</button>
+			 </div>
 
                 <div class="modal-body pagination-centered">
                     <img src="{{img}}" alt="" class="img-responsive text-center" id="singleImage" />
                 </div>
 
                 <div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					<button type="button" id="delete" class="btn btn-danger pull-left">Delete Image</button>
+				 {{#if currentuser}}
+				  <form>
+				   <input ty rows="4" class="form-control" name="comment" id="comment">
+				   <input id="submitComment" type="submit" class="btn btn-success pull-right">
+				  </form>
+				 {{/if}}
                 </div>
+				<div class="comment">
+				 {{#each comment}}
+				  <hr>
+				  <h4><p>{{this.comment}}</p></h4>
+				  <h6><p>By - {{this.user}}</p></h6>
+				  <hr>
+				 {{/each}}
+				</div>
 
             </div>
         </div>
