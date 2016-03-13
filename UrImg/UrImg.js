@@ -85,6 +85,20 @@ if (Meteor.isClient) {
   Meteor.subscribe("comments");
   
   /**
+   *Adds events to the navbar
+   *when clicking on the upload button.
+   *If clicked it will open a popup that
+   *allows the user to drag and drop images
+   *or open a file selector.
+   */
+  Template.navitems.events({
+    'click #upload': function(event){
+      event.preventDefault();
+      Modal.show('uploadModal');
+    }
+  });
+  
+  /**
    *Returns the currently logged in
    *user to be able to see who is
    *uploading images
@@ -200,21 +214,7 @@ if (Meteor.isClient) {
       
     }
   });
-  
-  /**
-   *Adds events to the navbar
-   *when clicking on the upload button.
-   *If clicked it will open a popup that
-   *allows the user to drag and drop images
-   *or open a file selector.
-   */
-  Template.navitems.events({
-    'click #upload': function(event){
-      event.preventDefault();
-      Modal.show('uploadModal');
-    }
-  });
-  
+    
   /**
    *Adds events to the upload image
    *popup that allow users to drag and drop
@@ -254,8 +254,15 @@ if (Meteor.isClient) {
   img: function(){
     return Session.get('imageUrl');
   },
-  comment: function(){
-    return Comments.find({'url': Session.get('imageUrl')});
+  "comment": function(){
+    var thisUrl = Session.get('imageId');
+    //console.log(thisUrl);
+    var comments = Comments.find({'url': thisUrl});
+    console.log(comments);
+    return comments;
+  },
+  currentuser: function(){
+    return Meteor.user();
   }
  });
  
@@ -264,16 +271,18 @@ if (Meteor.isClient) {
     event.preventDefault();
     var commentText = $(event.target).find('input[name=comment]');
     var cmntText = commentText.val();
-    var imgUrl = Session.get('imageUrl');
+    var imgUrl = Session.get('imageId');
     var usr = Meteor.user();
-    var currentUser = usr.username;
+    var currUser = usr.username;
     //console.log(currentUser);
     
     Comments.insert({
       comment: cmntText,
       url: imgUrl,
-      user: currentUser     
+      user: currUser,
+      createdOn: Date.now()
     });
+    commentText.val("");
   }
  });
  /*
@@ -331,7 +340,13 @@ if (Meteor.isServer) {
         }
       });
     Comments.allow({
-      insert: function(){
+      insert: function () {
+        return true;
+      },
+      update: function () {
+        return true;
+      },
+      remove: function () {
         return true;
       }
     });
@@ -351,6 +366,10 @@ if (Meteor.isServer) {
       removeImage: function(id){
         
         return Images.remove(id);
+      },
+      
+      findComments: function(imageUrl){
+        return Comments.find({"url": imageUrl});
       }
 
     });
