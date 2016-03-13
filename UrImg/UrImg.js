@@ -302,13 +302,15 @@ if (Meteor.isClient) {
     var usr = Meteor.user();
     var currUser = usr.username;
     //console.log(currentUser);
-    
-    Comments.insert({
+    if (cmntText != "") {
+      Comments.insert({
       comment: cmntText,
       url: imgUrl,
       user: currUser,
       createdOn: Date.now()
     });
+    }
+    
     commentText.val("");
   }
  });
