@@ -31,6 +31,7 @@ Images = new FS.Collection("images", {
 });
 
 Comments = new Mongo.Collection("comments");
+ImageInfo = new Mongo.Collection('imageInfo');
 /**
  *Sets the homepage to route to render
  *the homepage template.
@@ -83,6 +84,7 @@ if (Meteor.isClient) {
   
   Meteor.subscribe("images");
   Meteor.subscribe("comments");
+  Meteor.subscribe("imageInfo");
   
   /**
    *Adds events to the navbar
@@ -228,7 +230,7 @@ if (Meteor.isClient) {
     'click img': function(event){
       event.preventDefault();
       //console.log(Meteor.user());
-      //console.log(this, arguments);
+      console.log(this, arguments);
       var img = this.url('images');
       var id = this._id;
       Session.set('imageUrl', img);
@@ -252,14 +254,19 @@ if (Meteor.isClient) {
   Template.uploadModal.events({
     'dropped #dropzone': function(event, temp){
         console.log('files dropped');
-        FS.Utility.eachFile(event, function(file){
+        FS.Utility.eachFile(event, function(file){          
           fsFile = new FS.File(file);
+          console.log(fsFile);
+          document.getElementById("dropZone").innerHTML = fsFile.original.name;
           fsFile.owner = Meteor.user();
+          document.getElementById("uploadImg").addEventListener("click", function(){
             Images.insert(fsFile, function(err, fileObj){
-                
             });
+            Modal.hide('uploadModal');
+          });
+            
         });
-      Modal.hide('uploadModal');
+      
     },
     'click #uploadImg': function(event, temp){
       event.preventDefault();
@@ -348,6 +355,10 @@ if (Meteor.isServer) {
     Meteor.publish('comments', function() {
       return Comments.find();
     });
+    
+    Meteor.publish('imageInfo', function() {
+      return ImageInfo.find();
+    })
     // code to run on server at startup
     /**
      *Sets all the flags for images that
