@@ -4,11 +4,13 @@
     display: inline;
     
 }
+
 #images img {
     min-height: 200px;
     max-height: 200px;
     min-width: 200px;
     max-width: 200px;
+    margin-bottom: 4px;
 }
 
 #singleImage {
@@ -50,7 +52,7 @@ textarea {
 }
 
 #file {
-    margin-left: inherit;
+    margin-left: 5px;
 }
 
 .title {

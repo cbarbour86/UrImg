@@ -60,7 +60,7 @@
 <template name="myImages">
   <div class="imageView text-center">
     {{#each images}}
-      <div id="images" class="text-center">
+      <div class="text-center images">
         <a href="{{this.url store='images'}}" id="{{this.url store='images'}}"><img src="{{this.url store='thumbs'}}" alt="" class="img-responsive img-thumbnail" /></a>
       </div>
     {{/each}}
@@ -117,7 +117,7 @@
                 <div class="modal-footer">
 				 {{#if currentuser}}
 				  <form>
-				   <input ty rows="4" class="form-control" name="comment" id="comment">
+				   <input type="text" rows="4" class="form-control" name="comment" id="comment">
 				   <input id="submitComment" type="submit" class="btn btn-success pull-right">
 				  </form>
 				 {{/if}}
