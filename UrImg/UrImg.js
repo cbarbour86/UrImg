@@ -149,7 +149,7 @@ if (Meteor.isClient) {
     },
     'click img': function(event){
       event.preventDefault();
-      console.log(this, arguments);
+      //console.log(this, arguments);
       var img = this.url('images');
       var id = this._id;
       Session.set('imageUrl', img);
@@ -166,11 +166,17 @@ if (Meteor.isClient) {
     var thisUrl = Session.get('imageId');
     //console.log(thisUrl);
     var comments = Comments.find({'url': thisUrl}, {sort: {createdOn: -1}});
-    console.log(comments);
+    //console.log(comments);
     return comments;
     },
     currentuser: function(){
       return Meteor.user();
+    },
+    title: function(){
+      var key = Session.get('imageId');
+      var title = ImageInfo.find({foreignKey: key});
+      console.log(title);
+      return title;
     }
    });
   
@@ -230,7 +236,7 @@ if (Meteor.isClient) {
     'click img': function(event){
       event.preventDefault();
       //console.log(Meteor.user());
-      console.log(this, arguments);
+      //console.log(this, arguments);
       var img = this.url('images');
       var id = this._id;
       Session.set('imageUrl', img);
@@ -260,7 +266,16 @@ if (Meteor.isClient) {
           document.getElementById("dropZone").innerHTML = fsFile.original.name;
           fsFile.owner = Meteor.user();
           document.getElementById("uploadImg").addEventListener("click", function(){
+            event.preventDefault();
             Images.insert(fsFile, function(err, fileObj){
+            });
+            
+            var imgTitle = document.getElementById("title");
+            var imageTitle = imgTitle.value;
+            var imgID = fsFile._id;
+            ImageInfo.insert({
+              title: imageTitle,
+              foreignKey: imgID
             });
             Modal.hide('uploadModal');
           });
@@ -274,6 +289,12 @@ if (Meteor.isClient) {
       fsFile = new FS.File(file);
       fsFile.owner = Meteor.user();
       var fileObj = Images.insert(fsFile);
+      var imgTitle = document.getElementById("title");
+      var imageTitle = imgTitle.value;
+      ImageInfo.insert({
+        title: imageTitle,
+        foreignKey: imgID
+      });
       console.log('Upload result: ', fileObj);
       Modal.hide('uploadModal');
     }
@@ -292,11 +313,17 @@ if (Meteor.isClient) {
     var thisUrl = Session.get('imageId');
     //console.log(thisUrl);
     var comments = Comments.find({'url': thisUrl}, {sort: {createdOn: -1}});
-    console.log(comments);
+    //console.log(comments);
     return comments;
   },
   currentuser: function(){
     return Meteor.user();
+  },
+  title: function(){
+    var key = Session.get('imageId');
+    var title = ImageInfo.find({foreignKey: key});
+    console.log(title);
+    return title;
   }
  });
  
@@ -387,6 +414,11 @@ if (Meteor.isServer) {
         return true;
       },
       remove: function () {
+        return true;
+      }
+    });
+    ImageInfo.allow({
+      insert: function() {
         return true;
       }
     });

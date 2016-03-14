@@ -48,3 +48,11 @@ textarea {
 .modal-content {
     background-color: #565656;
 }
+
+#file {
+    margin-left: inherit;
+}
+
+.title {
+    display: inline;
+}
