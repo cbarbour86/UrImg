@@ -56,3 +56,11 @@ textarea {
 .title {
     display: inline;
 }
+
+#delete {
+    margin-top: 5px;
+}
+
+#closeModal {
+    margin-top: 5px;
+}

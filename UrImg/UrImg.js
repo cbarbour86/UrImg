@@ -195,14 +195,16 @@ if (Meteor.isClient) {
         var usr = Meteor.user();
         var currUser = usr.username;
         //console.log(currentUser);
+        if (cmntText != "") {
+          Comments.insert({
+            comment: cmntText,
+            url: imgUrl, //Was originally using the image url, but that didn't work so this is actually the Image Collection ID for the image.
+            user: currUser,
+            createdOn: Date.now()
+          });
+          commentText.val("");
+        }
         
-        Comments.insert({
-          comment: cmntText,
-          url: imgUrl,
-          user: currUser,
-          createdOn: Date.now()
-        });
-        commentText.val("");
       }
     });
   

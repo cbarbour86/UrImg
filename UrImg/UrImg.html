@@ -107,9 +107,8 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content text-center">
-			 <div class="modal-header">			  
+			 <div class="modal-header text-center">			  
 			  <h3 class="text-center title">{{#each title}}{{this.title}}{{/each}}</h3>
-              <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
 			 </div>
                 <div class="modal-body pagination-centered">
                     <img src="{{img}}" alt="" class="img-responsive text-center" id="singleImage" />
@@ -122,6 +121,7 @@
 				   <input id="submitComment" type="submit" class="btn btn-success pull-right">
 				  </form>
 				 {{/if}}
+				 <input type="button" style="margin-top: 5px;" class="btn btn-danger pull-left" data-dismiss="modal" value="Close">
                 </div>
 				  <div class="comment">
 				  {{#each comment}}
@@ -141,10 +141,8 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content text-center">
-			 <div class="modal-header">
-			  <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+			 <div class="modal-header text-center">
 			  <h3 class="text-center title">{{#each title}}{{this.title}}{{/each}}</h3>
-			  <button type="button" id="delete" class="btn btn-danger pull-left">Delete Image</button>
 			 </div>
 
                 <div class="modal-body pagination-centered">
@@ -153,11 +151,13 @@
 
                 <div class="modal-footer">
 				 {{#if currentuser}}
-				  <form>
-				   <input ty rows="4" class="form-control" name="comment" id="comment">
+				  <form class="form-horizontal">
+				   <input type="text" rows="4" class="form-control" name="comment" id="comment">
 				   <input id="submitComment" type="submit" class="btn btn-success pull-right">
 				  </form>
 				 {{/if}}
+				 <input type="button" id="delete" class="btn btn-danger pull-left" value="Delete Image">
+				 <input type="button" id="closeModal" class="btn btn-danger pull-left" value="Close" data-dismiss="modal">
                 </div>
 				<div class="comment">
 				 {{#each comment}}
