@@ -293,6 +293,7 @@ if (Meteor.isClient) {
       var fileObj = Images.insert(fsFile);
       var imgTitle = document.getElementById("title");
       var imageTitle = imgTitle.value;
+      var imgID = fsFile._id;
       ImageInfo.insert({
         title: imageTitle,
         foreignKey: imgID
