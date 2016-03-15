@@ -60,7 +60,7 @@
 <template name="myImages">
   <div class="imageView text-center">
     {{#each images}}
-      <div class="text-center images">
+      <div id="images" class="images">
         <a href="{{this.url store='images'}}" id="{{this.url store='images'}}"><img src="{{this.url store='thumbs'}}" alt="" class="img-responsive img-thumbnail" /></a>
       </div>
     {{/each}}
@@ -85,6 +85,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 			  <div class="modal-header">
+					<input type="submit" id="uploadImg" value="Upload" class="btn btn-success pull-left">
                     <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
 			  </div>
                 <div id="dropzone" class="modal-body text-center">
@@ -93,8 +94,7 @@
                 <div class="modal-footer form-inline form-group">
 					
 					<input type="text" id="title" name="title" class="form-control pull-left" placeholder="Image Title">
-					<input type="file" id="file" class="btn btn-primary filestyle pull-left">
-					<input type="submit" id="uploadImg" value="Upload" class="btn btn-success pull-left">
+					<input type="file" id="file" class="btn btn-primary filestyle pull-right">
 					
                 </div>
 
